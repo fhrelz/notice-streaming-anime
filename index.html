@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NOTICE Streaming</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="img/notice.png" type="image/x-icon">
+</head>
+<body>
+    <nav>
+        <a href="/" class="logo"><img src="img/noticenobg.png" alt="NOTICE Logo" /></a>
+        <div class="nav-menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">News</a></li>
+                <li>
+                    Category <i class="fas fa-angle-down"></i>
+                    <div class="list">
+                        <a href="#">Anime</a>
+                        <a href="#">Donghua</a>
+                        <a href="#">Drama</a>
+                        <a href="#">Film</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="search">
+                <input type="text" placeholder="Cari Sesuatu di Sini.." id="search_input" />
+                <i class="fas fa-search" id="search_icon"></i>
+                <div class="search_results"></div>
+            </div>
+            <div class="user-actions">
+                <i class="fas fa-bell"></i>
+                <div class="user-profile-container">
+                    <img src="img/user1.png" alt="User Avatar" title="ryouko.chii" />
+                    <div class="profile-dropdown">
+                        <div class="profile-menu">
+                            <a href="#">
+                                <i class="fas fa-user-circle"></i>
+                                <span>Profil Saya</span>
+                            </a>
+                            <a href="#">
+                                <i class="fas fa-cog"></i>
+                                <span>Pengaturan Akun</span>
+                            </a>
+                            <a href="#">
+                                <i class="fas fa-desktop"></i>
+                                <span>Manajemen Perangkat</span>
+                            </a>
+                            <a href="#">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Sign Out</span>
+                            </a>
+                        </div>
+                        <hr>
+                        <div class="switch-account-section">
+                            <h4>Switch Account</h4>
+                            <div class="account-item active">
+                                <img src="img/user1.png" alt="Ryouko's Avatar">
+                                <div class="account-details">
+                                    <span class="name">Ryouko</span>
+                                    <span class="email">otosakaryouko264@gmail.com</span>
+                                </div>
+                                <div class="active-indicator"></div>
+                            </div>
+                            <div class="account-item">
+                                 <a href="#">
+                                    <i class="fas fa-plus-circle"></i>
+                                    <span>Tambahkan akun lain</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="content" id="header_content">
+             </div>
+        <div class="slider_btns" id="slider_dots">
+            </div>
+    </header>
+
+    <main>
+        <section class="horizontal-list-section">
+            <div class="section-header">
+                <h2>Most Popular Watched</h2>
+                <p>Tonton anime ini berdasarkan jumlah penonton dan rating tertinggi!</p>
+            </div>
+            <div class="horizontal-scroll-wrapper">
+                <button class="scroll-btn left" id="popular-scroll-left"><i class="fas fa-angle-left"></i></button>
+                <div class="movie-carousel" id="popular-carousel">
+                    </div>
+                <button class="scroll-btn right" id="popular-scroll-right"><i class="fas fa-angle-right"></i></button>
+            </div>
+        </section>
+
+        <section class="horizontal-list-section">
+            <div class="section-header">
+                <h2>Recommended Shows For You</h2>
+                <p>Rekomendasi hiburan yang mungkin cocok untuk Anda</p>
+            </div>
+            <div class="horizontal-scroll-wrapper">
+                <button class="scroll-btn left" id="recommended-scroll-left"><i class="fas fa-angle-left"></i></button>
+                <div class="movie-carousel" id="recommended-carousel">
+                    </div>
+                <button class="scroll-btn right" id="recommended-scroll-right"><i class="fas fa-angle-right"></i></button>
+            </div>
+        </section>
+        
+        <section class="all-movies-container">
+            <div class="cato_bx cato_bx2" id="filter-controls">
+                <div class="left_cato">
+                    <button data-filter="all" class="cato_button_active">All</button>
+                    <button data-filter="action">Action</button>
+                    <button data-filter="crime">Crime</button>
+                    <button data-filter="drama">Drama</button>
+                    <button data-filter="latest">Latest</button>
+                     <div class="dropdown-filter">
+                        <button>Year <i class="fas fa-angle-down"></i></button>
+                        <div class="dropdown-content">
+                            <li data-filter="2025">2025</li>
+                            <li data-filter="2024">2024</li>
+                            <li data-filter="2023">2023</li>
+                            <li data-filter="2022">2022</li>
+                            <li data-filter="2021">2021</li>
+                            <li data-filter="2020">2020</li>
+                        </div>
+                    </div>
+                </div>
+                <div class="right_cato">
+                    <i class="fas fa-star"></i>
+                    <input type="range" id="rate_filter" min="4.0" max="10.0" value="4.0" step="0.1" />
+                    <span id="rate_value">4.0+</span>
+                </div>
+            </div>
+            
+            <div class="movie_bx_1 movie_bx_2" id="movie-grid">
+                </div>
+        </section>
+
+        <section class="video_bx" id="video_section">
+            <video src="vid/Kaijuu no-8 Season2｜7月19日より毎週土曜23_00～放送･配信開始(1080p).mp4" id="video"></video>
+            <div class="overlay">
+                <h4 class="title_video">KAIJU NO.8 Season 2 Official Trailer</h4>
+                <span class="watching"><i class="fas fa-eye"></i> Sedang Ditonton</span>
+                <div class="heart_plus"><i class="fas fa-heart"></i> <i class="fas fa-plus"></i></div>
+                <div class="video_list">
+                    <img src="img/tff.jpg" alt="Trailer The Fragrant Flower" class="video_thumb">
+                    <img src="img/kny.jpg" alt="Trailer Demon Slayer" class="video_thumb">
+                    <img src="img/kaiju no8 1.png" alt="Trailer Kaiju No. 8" class="video_thumb">
+                </div>
+            </div>
+            <div class="control">
+                <div class="play_redo">
+                    <i class="bi bi-play-fill" id="play_pause_btn"></i>
+                </div>
+                <div class="start_seekbar_end">
+                    <span id="start_time">00:00</span>
+                    <div class="seek">
+                        <input type="range" id="seek_bar" value="0" />
+                        <div id="seek_progress"></div>
+                        <div class="seek_bg"></div>
+                        <div id="seek_dot"></div>
+                    </div>
+                    <span id="end_time">00:00</span>
+                </div>
+                <div class="cc_vol_screen">
+                    <i class="bi bi-badge-cc-fill"></i>
+                    <i class="bi bi-volume-up-fill" id="vol_icon"></i>
+                    <input type="range" id="vol_bar" min="0" max="100" value="100"/>
+                    <i class="bi bi-arrows-fullscreen" id="fullscreen_btn"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="hero-section">
+            <div class="content-wrapper">
+                <h1>Nikmati & Tonton Berbagai Macam Hiburan Lengkap Secara Gratis!</h1>
+                <p>Kami selalu berusaha semaksimal mungkin, Anda dapat menikmati berbagai hiburan yang telah kami sediakan. Kami menjamin bahwasannya hiburan yang kami berikan adalah data terbaru dan berlisensi!</p>
+                <div class="button-group">
+                    <a href="#video_section" class="btn btn-primary">Get Started!</a>
+                    <a href="#" class="btn btn-secondary">Learn More...</a>
+                </div>
+            </div>
+            <div class="character-image">
+                <img src="img/jinwoo.png" alt="Karakter Sung Jinwoo">
+            </div>
+        </section>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="img/notice.png" alt="Logo NOTICE">
+                <p class="tagline">It's All Here</p>
+            </div>
+            <nav class="footer-nav">
+                <ul>
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="#">Media</a></li>
+                    <li><a href="#">PR Agencies</a></li>
+                </ul>
+            </nav>
+            <hr class="separator">
+            <nav class="footer-nav secondary-nav">
+                <ul>
+                    <li><a href="#">Brand Directory</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <hr class="separator">
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="footer-legal">
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div class="copyright">
+                <p>Copyright ©2025 NOTICE, Ltd, All right reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
