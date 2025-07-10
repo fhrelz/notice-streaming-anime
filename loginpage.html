@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - NOTICE Streaming</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="auth.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+    <link rel="shortcut icon" href="img/notice.png" type="image/x-icon">
+</head>
+<body>
+    <nav>
+        <a href="/" class="logo"><img src="img/noticenobg.png" alt="NOTICE Logo" /></a>
+        <div class="nav-menu">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">News</a></li>
+                <li>
+                    Category <i class="fas fa-angle-down"></i>
+                    <div class="list">
+                        <a href="#">Anime</a>
+                        <a href="#">Donghua</a>
+                        <a href="#">Drama</a>
+                        <a href="#">Film</a>
+                    </div>
+                </li>
+            </ul>
+            <div class="search">
+                <input type="text" placeholder="Cari Sesuatu di Sini.." id="search_input" />
+                <i class="fas fa-search" id="search_icon"></i>
+                <div class="search_results"></div>
+            </div>
+            <div class="user-actions">
+                <i class="fas fa-bell"></i>
+                <div class="user-profile-container">
+                    <a href="loginpage.html"><i class="fas fa-user-circle" style="font-size: 22px; color: #fff;"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="auth-main">
+        <div class="auth-container">
+            <div class="auth-art login-art"></div>
+            <div class="auth-form-container">
+                <form class="auth-form" id="login_form">
+                    <h2>HELLO !<br>WELCOME TO NOTICE</h2>
+                    
+                    <p class="error-message" id="error_message"></p>
+                    
+                    <div class="input-group">
+                        <input type="text" id="email" required placeholder="Email">
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="password" required placeholder="Password">
+                    </div>
+
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                    <button type="submit" class="btn-submit">SIGN IN</button>
+
+                    <div class="separator">
+                        <span>Or continue with</span>
+                    </div>
+
+                    <div class="social-login">
+                        <a href="#" class="social-btn"><i class="fab fa-google"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-apple"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                    </div>
+
+                    <p class="switch-auth">
+                        Don't have an account? <a href="signup.html">Create Account!</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="img/notice.png" alt="Logo NOTICE">
+                <p class="tagline">It's All Here</p>
+            </div>
+            <nav class="footer-nav">
+                <ul>
+                    <li><a href="#">Beranda</a></li>
+                    <li><a href="#">Media</a></li>
+                    <li><a href="#">PR Agencies</a></li>
+                </ul>
+            </nav>
+            <hr class="separator">
+            <nav class="footer-nav secondary-nav">
+                <ul>
+                    <li><a href="#">Brand Directory</a></li>
+                    <li><a href="#">Case Studies</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <hr class="separator">
+            <div class="social-icons">
+                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="footer-legal">
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <div class="copyright">
+                <p>Copyright ©2025 NOTICE, Ltd, All right reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login_form');
+            const errorMessage = document.getElementById('error_message');
+
+            loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                errorMessage.textContent = '';
+
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+
+                if (!email || !password) {
+                    errorMessage.textContent = 'Email dan password wajib diisi!';
+                    return;
+                }
+
+                const users = JSON.parse(localStorage.getItem('notice_users')) || [];
+                const user = users.find(u => u.email === email);
+
+                if (!user) {
+                    errorMessage.textContent = 'Akun tidak ditemukan. Silakan buat akun.';
+                    return;
+                }
+
+                if (user.password !== password) {
+                    errorMessage.textContent = 'Password salah. Silakan coba lagi.';
+                    return;
+                }
+
+                localStorage.setItem('notice_currentUser', JSON.stringify(user));
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+</html>
