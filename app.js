@@ -577,7 +577,6 @@ document.addEventListener('DOMContentLoaded', () => {
         upload: "latest",
     }];
 
-    // DATA UNTUK HEADER SLIDER
     const sliderData = [{
         background: "url('img/tff.jpg') no-repeat center center/cover",
         duration: "24min",
@@ -598,7 +597,6 @@ document.addEventListener('DOMContentLoaded', () => {
         description: "Setelah kehancuran kampung halaman mereka, teman masa kecil Kafka Hibino dan Mina Ashiro membuat perjanjian untuk menjadi perwira di Pasukan Pertahanan...",
     }];
 
-    // DATA UNTUK VIDEO PLAYLIST
     const videoPlaylist = [
         {
             videoSrc: 'vid/The_Fragrant_Flower_Blooms_With_Dignity___Official_Trailer___Netflix(1080p).mp4',
@@ -644,7 +642,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentSlide = 0;
 
     // === Functions ===
-
     const createMovieCard = (movie) => {
         const card = document.createElement('div');
         card.className = 'card';
@@ -674,6 +671,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     const applyAndRenderFilters = () => {
+        if (!movieGrid) return; // Jangan jalankan jika bukan di halaman utama
         const rating = parseFloat(rateFilter.value);
         let filteredMovies = movies;
 
@@ -720,6 +718,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const updateHeaderSlider = (slideIndex) => {
+        if (!headerEl) return; // Jangan jalankan jika bukan di halaman utama
         const slide = sliderData[slideIndex];
         headerEl.style.background = slide.background;
         headerContentEl.innerHTML = `
@@ -744,137 +743,197 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
     };
 
-    // === Event Listeners ===
-
-    filterControls.addEventListener('click', (e) => {
-        const target = e.target;
-        if (target.matches('button[data-filter]') || target.matches('li[data-filter]')) {
-            filterControls.querySelector('.cato_button_active')?.classList.remove('cato_button_active');
-            target.classList.add('cato_button_active');
-            activeFilter = target.dataset.filter;
-            applyAndRenderFilters();
-        }
-    });
-
-    rateFilter.addEventListener('input', () => {
-        rateValue.textContent = `${rateFilter.value}+`;
-        applyAndRenderFilters();
-    });
-
-    searchIcon.addEventListener('click', () => {
-        searchInput.classList.toggle('active');
-        searchInput.focus();
-    });
-
-    searchInput.addEventListener('keyup', () => {
-        const filter = searchInput.value.toUpperCase();
-        searchResultsContainer.classList.toggle('visible', filter.length > 0);
-        if (filter.length === 0) return;
-
-        const filtered = movies.filter(m => m.title.toUpperCase().includes(filter));
-        searchResultsContainer.innerHTML = '';
-        filtered.slice(0, 8).forEach(movie => {
-            const resultEl = document.createElement('a');
-            resultEl.href = movie.url || '#';
-            resultEl.innerHTML = `
-                <img src="${movie.img}" alt="${movie.title}">
-                <div class="content2">
-                    <h6>${movie.title}</h6>
-                    <p>${movie.year}</p>
-                </div>`;
-            searchResultsContainer.appendChild(resultEl);
-        });
-    });
-
-    playPauseBtn.addEventListener('click', () => {
-        video[video.paused ? 'play' : 'pause']();
-    });
-
-    video.addEventListener('play', () => {
-        playPauseBtn.classList.remove('bi-play-fill');
-        playPauseBtn.classList.add('bi-pause-fill');
-    });
-
-    video.addEventListener('pause', () => {
-        playPauseBtn.classList.remove('bi-pause-fill');
-        playPauseBtn.classList.add('bi-play-fill');
-    });
-
-    video.addEventListener('timeupdate', () => {
-        const { currentTime, duration } = video;
-        if (isNaN(duration)) return;
-        const progressPercent = (currentTime / duration) * 100;
-        seekBar.value = progressPercent;
-        seekProgress.style.width = `${progressPercent}%`;
-        seekDot.style.left = `${progressPercent}%`;
-        startTimeElem.textContent = formatTime(currentTime);
-        endTimeElem.textContent = formatTime(duration - currentTime);
-    });
-
-    video.addEventListener('loadedmetadata', () => endTimeElem.textContent = formatTime(video.duration));
-
-    seekBar.addEventListener('input', () => {
-        if (!isNaN(video.duration)) {
-            video.currentTime = (seekBar.value * video.duration) / 100;
-        }
-    });
-
-    volBar.addEventListener('input', () => {
-        video.volume = volBar.value / 100;
-        volIcon.className = 'bi';
-        if (video.volume == 0) volIcon.classList.add('bi-volume-off-fill');
-        else if (video.volume <= 0.5) volIcon.classList.add('bi-volume-down-fill');
-        else volIcon.classList.add('bi-volume-up-fill');
-    });
-
-    fullscreenBtn.addEventListener('click', () => {
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        } else {
-            video.requestFullscreen().catch(err => alert(`Error: ${err.message}`));
-        }
-    });
-
-    videoThumbnails.forEach((thumbnail, index) => {
-        thumbnail.addEventListener('click', () => {
-            if (videoPlaylist[index]) {
-                const selectedVideo = videoPlaylist[index];
-                video.src = selectedVideo.videoSrc;
-                videoTitle.textContent = selectedVideo.title;
-                video.play();
+    // === Event Listeners (Hanya untuk halaman utama) ===
+    if (filterControls) {
+        filterControls.addEventListener('click', (e) => {
+            const target = e.target;
+            if (target.matches('button[data-filter]') || target.matches('li[data-filter]')) {
+                filterControls.querySelector('.cato_button_active')?.classList.remove('cato_button_active');
+                target.classList.add('cato_button_active');
+                activeFilter = target.dataset.filter;
+                applyAndRenderFilters();
             }
         });
-    });
+    }
 
-
-    // === Initializations ===
-
-    // Slider Header
-    sliderData.forEach((_, index) => {
-        const dot = document.createElement('div');
-        dot.className = 'slider-dot';
-        dot.addEventListener('click', () => {
-            currentSlide = index;
-            updateHeaderSlider(currentSlide);
+    if (rateFilter) {
+        rateFilter.addEventListener('input', () => {
+            rateValue.textContent = `${rateFilter.value}+`;
+            applyAndRenderFilters();
         });
-        sliderDotsContainer.appendChild(dot);
-    });
-    setInterval(() => {
-        currentSlide = (currentSlide + 1) % sliderData.length;
-        updateHeaderSlider(currentSlide);
-    }, 8000);
-    updateHeaderSlider(0);
+    }
 
-    // Most Popular & Recommended Carousels
-    const mostPopularAnime = [...movies].sort((a, b) => b.rate - a.rate).slice(0, 20);
-    renderCarousel(popularCarousel, mostPopularAnime);
+    if(searchIcon) {
+        searchIcon.addEventListener('click', () => {
+            searchInput.classList.toggle('active');
+            searchInput.focus();
+        });
+    }
 
-    const recommendedAnime = [...movies].sort((a, b) => b.year - a.year).slice(0, 20);
-    renderCarousel(recommendedCarousel, recommendedAnime);
+    if(searchInput){
+        searchInput.addEventListener('keyup', () => {
+            const filter = searchInput.value.toUpperCase();
+            searchResultsContainer.classList.toggle('visible', filter.length > 0);
+            if (filter.length === 0) return;
+    
+            const filtered = movies.filter(m => m.title.toUpperCase().includes(filter));
+            searchResultsContainer.innerHTML = '';
+            filtered.slice(0, 8).forEach(movie => {
+                const resultEl = document.createElement('a');
+                resultEl.href = movie.url || '#';
+                resultEl.innerHTML = `
+                    <img src="${movie.img}" alt="${movie.title}">
+                    <div class="content2">
+                        <h6>${movie.title}</h6>
+                        <p>${movie.year}</p>
+                    </div>`;
+                searchResultsContainer.appendChild(resultEl);
+            });
+        });
+    }
 
-    setupCarouselScroll('popular-carousel', 'popular-scroll-left', 'popular-scroll-right');
-    setupCarouselScroll('recommended-carousel', 'recommended-scroll-left', 'recommended-scroll-right');
+    if (video) {
+        playPauseBtn.addEventListener('click', () => video[video.paused ? 'play' : 'pause']());
+        video.addEventListener('play', () => {
+            playPauseBtn.classList.remove('bi-play-fill');
+            playPauseBtn.classList.add('bi-pause-fill');
+        });
+        video.addEventListener('pause', () => {
+            playPauseBtn.classList.remove('bi-pause-fill');
+            playPauseBtn.classList.add('bi-play-fill');
+        });
+        video.addEventListener('timeupdate', () => {
+            const { currentTime, duration } = video;
+            if (isNaN(duration)) return;
+            const progressPercent = (currentTime / duration) * 100;
+            seekBar.value = progressPercent;
+            seekProgress.style.width = `${progressPercent}%`;
+            seekDot.style.left = `${progressPercent}%`;
+            startTimeElem.textContent = formatTime(currentTime);
+            endTimeElem.textContent = formatTime(duration - currentTime);
+        });
+        video.addEventListener('loadedmetadata', () => endTimeElem.textContent = formatTime(video.duration));
+        seekBar.addEventListener('input', () => {
+            if (!isNaN(video.duration)) {
+                video.currentTime = (seekBar.value * video.duration) / 100;
+            }
+        });
+        volBar.addEventListener('input', () => {
+            video.volume = volBar.value / 100;
+            volIcon.className = 'bi';
+            if (video.volume == 0) volIcon.classList.add('bi-volume-off-fill');
+            else if (video.volume <= 0.5) volIcon.classList.add('bi-volume-down-fill');
+            else volIcon.classList.add('bi-volume-up-fill');
+        });
+        fullscreenBtn.addEventListener('click', () => {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                video.requestFullscreen().catch(err => alert(`Error: ${err.message}`));
+            }
+        });
+        videoThumbnails.forEach((thumbnail, index) => {
+            thumbnail.addEventListener('click', () => {
+                if (videoPlaylist[index]) {
+                    const selectedVideo = videoPlaylist[index];
+                    video.src = selectedVideo.videoSrc;
+                    videoTitle.textContent = selectedVideo.title;
+                    video.play();
+                }
+            });
+        });
+    }
 
-    // Initial Movie Grid Render
-    applyAndRenderFilters();
+    // === Initializations (Hanya untuk halaman utama) ===
+    if (sliderDotsContainer) {
+        sliderData.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.className = 'slider-dot';
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                updateHeaderSlider(currentSlide);
+            });
+            sliderDotsContainer.appendChild(dot);
+        });
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % sliderData.length;
+            updateHeaderSlider(currentSlide);
+        }, 8000);
+        updateHeaderSlider(0);
+    }
+    
+    if (popularCarousel) {
+        const mostPopularAnime = [...movies].sort((a, b) => b.rate - a.rate).slice(0, 20);
+        renderCarousel(popularCarousel, mostPopularAnime);
+        setupCarouselScroll('popular-carousel', 'popular-scroll-left', 'popular-scroll-right');
+    }
+
+    if (recommendedCarousel) {
+        const recommendedAnime = [...movies].sort((a, b) => b.year - a.year).slice(0, 20);
+        renderCarousel(recommendedCarousel, recommendedAnime);
+        setupCarouselScroll('recommended-carousel', 'recommended-scroll-left', 'recommended-scroll-right');
+    }
+    
+    if (movieGrid) {
+        applyAndRenderFilters();
+    }
+
+    // =================================================================
+    // LOGIKA OTENTIKASI (Berjalan di semua halaman)
+    // =================================================================
+    const userProfileContainer = document.getElementById('user_profile_container');
+
+    function checkLoginStatus() {
+        if (!userProfileContainer) return; // Jangan jalankan jika elemen tidak ada
+
+        const currentUser = JSON.parse(localStorage.getItem('notice_currentUser'));
+        const guestUI = document.getElementById('guest_ui');
+        const loggedinUI = document.getElementById('loggedin_ui');
+        
+        if (currentUser) {
+            setupLoggedInUI(currentUser, guestUI, loggedinUI);
+        } else {
+            setupGuestUI(guestUI, loggedinUI);
+        }
+    }
+
+    function setupGuestUI(guestUI, loggedinUI) {
+        guestUI.style.display = 'block';
+        loggedinUI.style.display = 'none';
+
+        const userIcon = document.getElementById('user_icon');
+        const loginPrompt = document.getElementById('login_prompt');
+        
+        userIcon.addEventListener('click', (event) => {
+            event.stopPropagation();
+            loginPrompt.classList.toggle('show');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (loginPrompt && !loginPrompt.contains(event.target) && !userIcon.contains(event.target)) {
+                loginPrompt.classList.remove('show');
+            }
+        });
+    }
+
+    function setupLoggedInUI(user, guestUI, loggedinUI) {
+        guestUI.style.display = 'none';
+        loggedinUI.style.display = 'block';
+
+        document.getElementById('profile_name').textContent = user.username;
+        document.getElementById('profile_email').textContent = user.email;
+        // Ganti avatar jika ada data gambar, jika tidak gunakan placeholder
+        // document.getElementById('user_avatar').src = user.avatar || 'img/user1.png';
+        // document.getElementById('profile_dropdown_avatar').src = user.avatar || 'img/user1.png';
+
+        const signOutBtn = document.getElementById('sign_out_btn');
+        signOutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('notice_currentUser');
+            window.location.href = 'index.html'; // Arahkan ke index agar UI diperbarui
+        });
+    }
+
+    // Jalankan pengecekan status login saat halaman dimuat
+    checkLoginStatus();
 });
