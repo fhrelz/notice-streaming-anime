@@ -45,7 +45,7 @@ button {
     background: none;
 }
 
-main {
+main:not(.auth-main) {
     padding: 0 5%;
 }
 
@@ -67,16 +67,14 @@ nav {
     border-bottom: 1px solid var(--border-color);
 }
 
-/* HEADER - PERBAIKAN CSS */
 header {
     position: relative;
     width: 100%;
-    height: 500px; /* Kembali ke tinggi semula */
+    height: 500px;
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
     transition: background 1s ease-in-out;
-    /* Properti flexbox yang menyebabkan masalah telah dihapus */
 }
 
 header::before, header::after {
@@ -100,7 +98,6 @@ header::after {
     left: 0;
     background: linear-gradient(to right, var(--dark-bg), transparent);
 }
-
 
 nav .logo img {
     width: 100px;
@@ -278,18 +275,100 @@ nav .list a:hover {
     color: var(--text-light);
 }
 
-.user-actions img {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-/* PROFILE DROPDOWN MENU */
+/* USER PROFILE UI STYLES */
 .user-profile-container {
     position: relative;
     display: flex;
     align-items: center;
+}
+
+/* GUEST UI */
+#user_icon {
+    font-size: 22px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+#user_icon:hover {
+    color: var(--text-light);
+}
+
+.login-prompt {
+    position: absolute;
+    top: 150%; 
+    right: 0;
+    width: 250px;
+    background-color: #1c1c1e; 
+    border-radius: 12px;
+    border: 1px solid #3a3a3c;
+    padding: 16px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    z-index: 100;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.login-prompt.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.login-prompt h4 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: var(--text-light);
+}
+
+.login-prompt p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.prompt-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.prompt-buttons a {
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.prompt-buttons .btn-login {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.prompt-buttons .btn-login:hover {
+    background-color: #003da8;
+}
+
+.prompt-buttons .btn-signup {
+    background-color: #3a3a3c;
+    color: var(--text-light);
+}
+
+.prompt-buttons .btn-signup:hover {
+    background-color: #4a4a4c;
+}
+
+/* LOGGED-IN UI */
+#user_avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid var(--text-muted);
 }
 
 .profile-dropdown {
@@ -309,7 +388,7 @@ nav .list a:hover {
     transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
 }
 
-.user-profile-container:hover .profile-dropdown {
+#loggedin_ui:hover .profile-dropdown {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -414,13 +493,13 @@ nav .list a:hover {
     background-color: #0a84ff;
 }
 
-/* HEADER CONTENT - PERBAIKAN CSS */
+/* HEADER CONTENT */
 header .content {
     width: 77%;
     margin: 70px auto 0 auto;
     color: var(--text-light);
-    position: relative; /* Menjamin konten tetap di dalam header */
-    padding-left: 5%; /* Menjaga posisi teks */
+    position: relative;
+    padding-left: 5%;
 }
 
 header .content h1 {
@@ -926,7 +1005,7 @@ header .content .btns button {
 .btn-secondary:hover { background-color: #afafaf; color: #fff;}
 .character-image img { max-width: 450px; height: auto; filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.5)); }
 
-/* FOOTER STYLES (REVISED) */
+/* FOOTER STYLES */
 .site-footer {
     background-color: #141414;
     color: #8e8e93;
