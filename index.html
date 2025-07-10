@@ -34,56 +34,59 @@
             </div>
             <div class="user-actions">
                 <i class="fas fa-bell"></i>
-                <div class="user-profile-container">
-                    <img src="img/user1.png" alt="User Avatar" title="ryouko.chii" />
-                    <div class="profile-dropdown">
-                        <div class="profile-menu">
-                            <a href="#">
-                                <i class="fas fa-user-circle"></i>
-                                <span>Profil Saya</span>
-                            </a>
-                            <a href="#">
-                                <i class="fas fa-cog"></i>
-                                <span>Pengaturan Akun</span>
-                            </a>
-                            <a href="#">
-                                <i class="fas fa-desktop"></i>
-                                <span>Manajemen Perangkat</span>
-                            </a>
-                            <a href="#">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <span>Sign Out</span>
-                            </a>
+                
+                <!-- Kontainer UI Pengguna yang akan dimanipulasi oleh JS -->
+                <div class="user-profile-container" id="user_profile_container">
+                    
+                    <!-- UI untuk Pengguna Tamu (Guest) -->
+                    <div id="guest_ui">
+                        <i class="fas fa-user-circle" id="user_icon"></i>
+                        <div class="login-prompt" id="login_prompt">
+                            <h4>Selamat Datang!</h4>
+                            <p>Masuk atau daftar untuk melanjutkan.</p>
+                            <div class="prompt-buttons">
+                                <a href="loginpage.html" class="btn-login">Login</a>
+                                <a href="signup.html" class="btn-signup">Sign Up</a>
+                            </div>
                         </div>
-                        <hr>
-                        <div class="switch-account-section">
-                            <h4>Switch Account</h4>
-                            <div class="account-item active">
-                                <img src="img/user1.png" alt="Ryouko's Avatar">
-                                <div class="account-details">
-                                    <span class="name">Ryouko</span>
-                                    <span class="email">otosakaryouko264@gmail.com</span>
+                    </div>
+
+                    <!-- UI untuk Pengguna yang Sudah Login (Disembunyikan secara default) -->
+                    <div id="loggedin_ui" style="display: none;">
+                        <img src="img/user1.png" alt="User Avatar" id="user_avatar" />
+                        <div class="profile-dropdown" id="profile_dropdown">
+                            <div class="profile-menu">
+                                <a href="#"><i class="fas fa-user-circle"></i><span>Profil Saya</span></a>
+                                <a href="#"><i class="fas fa-cog"></i><span>Pengaturan Akun</span></a>
+                                <a href="#"><i class="fas fa-desktop"></i><span>Manajemen Perangkat</span></a>
+                                <a href="#" id="sign_out_btn"><i class="fas fa-sign-out-alt"></i><span>Sign Out</span></a>
+                            </div>
+                            <hr>
+                            <div class="switch-account-section">
+                                <h4>Switch Account</h4>
+                                <div class="account-item active">
+                                    <img src="img/user1.png" alt="User Avatar" id="profile_dropdown_avatar">
+                                    <div class="account-details">
+                                        <span class="name" id="profile_name">Username</span>
+                                        <span class="email" id="profile_email">email@example.com</span>
+                                    </div>
+                                    <div class="active-indicator"></div>
                                 </div>
-                                <div class="active-indicator"></div>
-                            </div>
-                            <div class="account-item">
-                                 <a href="#">
-                                    <i class="fas fa-plus-circle"></i>
-                                    <span>Tambahkan akun lain</span>
-                                </a>
+                                <div class="account-item">
+                                    <a href="#"><i class="fas fa-plus-circle"></i><span>Tambahkan akun lain</span></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    </div>
+
+                </div>
             </div>
         </div>
     </nav>
 
     <header>
-        <div class="content" id="header_content">
-             </div>
-        <div class="slider_btns" id="slider_dots">
-            </div>
+        <div class="content" id="header_content"></div>
+        <div class="slider_btns" id="slider_dots"></div>
     </header>
 
     <main>
@@ -94,8 +97,7 @@
             </div>
             <div class="horizontal-scroll-wrapper">
                 <button class="scroll-btn left" id="popular-scroll-left"><i class="fas fa-angle-left"></i></button>
-                <div class="movie-carousel" id="popular-carousel">
-                    </div>
+                <div class="movie-carousel" id="popular-carousel"></div>
                 <button class="scroll-btn right" id="popular-scroll-right"><i class="fas fa-angle-right"></i></button>
             </div>
         </section>
@@ -107,8 +109,7 @@
             </div>
             <div class="horizontal-scroll-wrapper">
                 <button class="scroll-btn left" id="recommended-scroll-left"><i class="fas fa-angle-left"></i></button>
-                <div class="movie-carousel" id="recommended-carousel">
-                    </div>
+                <div class="movie-carousel" id="recommended-carousel"></div>
                 <button class="scroll-btn right" id="recommended-scroll-right"><i class="fas fa-angle-right"></i></button>
             </div>
         </section>
@@ -140,8 +141,7 @@
                 </div>
             </div>
             
-            <div class="movie_bx_1 movie_bx_2" id="movie-grid">
-                </div>
+            <div class="movie_bx_1 movie_bx_2" id="movie-grid"></div>
         </section>
 
         <section class="video_bx" id="video_section">
